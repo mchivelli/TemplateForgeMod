@@ -59,6 +59,7 @@ sed -i "s/examplemod/${modid}/g" "src/main/java/com/lothrazar/${modid}/ModRegist
 sed -i "s/examplemod/${modid}/g" "src/main/java/com/lothrazar/${modid}/ConfigManager.java"
 
 sed -i "s/examplemod/${modid}/g" build.gradle
+sed -i "s/examplemod/${modid}/g" gradle.properties
 sed -i "s/examplemod/${modid}/g" src/main/resources/pack.mcmeta
 sed -i "s/examplemod/${modid}/g" src/main/resources/META-INF/mods.toml
 
