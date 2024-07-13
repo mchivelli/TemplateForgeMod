@@ -1,33 +1,22 @@
 package com.lothrazar.examplemod;
 
-import com.electronwill.nightconfig.core.file.CommentedFileConfig;
-import com.electronwill.nightconfig.core.io.WritingMode;
+import com.lothrazar.library.config.ConfigTemplate;
 import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.fml.loading.FMLPaths;
+import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
 
-public class ConfigManager {
+public class ConfigManager extends ConfigTemplate {
 
-  private static final ForgeConfigSpec.Builder CFG = new ForgeConfigSpec.Builder();
-  private static ForgeConfigSpec COMMON_CONFIG;
-  //  public static BooleanValue TESTING;
+  private static ForgeConfigSpec CONFIG;
+  public static BooleanValue TESTING;
   static {
-    initConfig();
+    final ForgeConfigSpec.Builder BUILDER = builder();
+    BUILDER.comment("Mod settings").push(ModMain.MODID);
+    TESTING = BUILDER.comment("Testing boolean config").define("doesNothing", true);
+    BUILDER.pop(); // one pop for every push
+    CONFIG = BUILDER.build();
   }
 
-  private static void initConfig() {
-    CFG.comment("General settings").push(ModMain.MODID);
-    //   TESTING = CFG.comment("Testing mixin spam log if holding filled map").define("serverTest", true);
-    CFG.pop(); // one pop for every push
-    COMMON_CONFIG = CFG.build();
-  }
-
-  public static void setup() {
-    final CommentedFileConfig configData = CommentedFileConfig.builder(FMLPaths.CONFIGDIR.get().resolve(ModMain.MODID + ".toml"))
-        .sync()
-        .autosave()
-        .writingMode(WritingMode.REPLACE)
-        .build();
-    configData.load();
-    COMMON_CONFIG.setConfig(configData);
+  public ConfigManager() {
+    CONFIG.setConfig(setup(ModMain.MODID));
   }
 }
